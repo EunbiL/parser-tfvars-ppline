@@ -5,17 +5,25 @@ jobs:
   Start-pipeline:
     runs-on: ubuntu-latest
     steps:
-      - name: First step to check out repository code
+      - name: Check out repository code
         uses: actions/checkout@v4
-      - name: Second step to list files in the repository
+      - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: Last step to print job status
-        run : echo "🍏 This job's status is ${{ job.status }}."
+      - name: Upload Files
+        uses: actions/upload-artifact@v2
+        with:
+            name: shared-files
+            path: .
+
   Install-prerequirement:
     needs: Start-pipeline
     runs-on: ubuntu-latest
     steps:
+      - name: Download All Files
+        uses: actions/download-artifact@v2
+        with:
+            name: shared-files
       - name: Check for tfvars file
         run: |
           if [ -f *.tfvars ]; then
