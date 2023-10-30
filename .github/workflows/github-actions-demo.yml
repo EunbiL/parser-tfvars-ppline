@@ -12,7 +12,19 @@ jobs:
           ls ${{ github.workspace }}
       - name: Last step to print job status
         run : echo "🍏 This job's status is ${{ job.status }}."
-  
+  Install-prerequirement:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for tfvars file
+        run: |
+          if [ -f *.tfvars ]; then
+              echo "tfvars file exists"
+          else
+              echo "tfvars file does not exist"
+              exit 1
+          fi
+        
+
 #   Test-Approve:
 #     needs: Explore-GitHub-Actions
 #     runs-on: ubuntu-latest
