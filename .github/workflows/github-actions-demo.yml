@@ -3,61 +3,57 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on:
     workflow_dispatch
 jobs:
+    Checkout-repository:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out repository code
+              uses: actions/checkout@v4
+            - name: List files in the repository
+              run: |
+                ls ${{ github.workspace }}
+            - name: Upload Files
+              uses: actions/upload-artifact@v2
+              with:
+                name: shared-files
+                path: .
 
-  Checkout-repository:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository code
-        uses: actions/checkout@v4
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - name: Upload Files
-        uses: actions/upload-artifact@v2
-        with:
+    Tfvars-parser:
+        needs: Checkout-repository
+        runs-on: ubuntu-latest
+        steps:
+        - name: Download All Files
+          uses: actions/download-artifact@v2
+          with:
             name: shared-files
-            path: .
-
-  Tfvars-parser:
-    needs: Checkout-repository
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download All Files
-        uses: actions/download-artifact@v2
-        with:
-            name: shared-files
-      - name: Check for tfvars file
-        run: |
-          if [ -f *.tfvars ]; then
+        - name: Check for tfvars file
+          run: |
+            if [ -f *.tfvars ]; then
               echo "tfvars file exists"
-          else
+            else
               echo "tfvars file does not exist"
               exit 1
-          fi
-      - name: Install pyhcl
-        run: pip install pyhcl
-      - name: Execute the script
-        run: python tfvars_parser.py --input_tfvars_file file-test.tfvars
-      - name: 🔍 Reviewers, Click here to check output.tfvars file 🔍
-        run: cat output.tfvars
-      - name: Upload output file
-        uses: actions/upload-artifact@v2
-        with:
+            fi
+        - name: Install pyhcl
+          run: pip install pyhcl
+        - name: Execute the script
+          run: python tfvars_parser.py --input_tfvars_file file-test.tfvars
+        - name: 🔍 Reviewers, Click here to check output.tfvars file 🔍
+          run: cat output.tfvars
+        - name: Upload output file
+          uses: actions/upload-artifact@v2
+          with:
             name: shared-files
             path: output.tfvars
 
-  Check-output-file:
-    needs: Tfvars-parser
-    runs-on: ubuntu-latest
-    environment:
-        name: dev
-    steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v2
-      - name: Read output.tfvars file
-        run: |
-          cd ${{ github.workspace }}/shared-files
-          cat output.tfvars
-
-
-          
+    Check-output-file:
+        needs: Tfvars-parser
+        runs-on: ubuntu-latest
+        environment:
+            name: dev
+        steps:
+        - name: Download artifact
+          uses: actions/download-artifact@v2
+        - name: Read output.tfvars file
+          run: |
+            cd ${{ github.workspace }}/shared-files
+            cat output.tfvars
