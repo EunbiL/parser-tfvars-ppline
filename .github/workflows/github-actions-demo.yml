@@ -42,11 +42,12 @@ jobs:
       - name: Read output file
         run: cat output.tfvars
 
-#   Test-Approve:
-#     needs: Explore-GitHub-Actions
-#     runs-on: ubuntu-latest
-#     environment:
-#       name: test
-#     steps:
-#       - name: Print "hello world"
-#         run: echo "hello world"
+  Test-Artifact:
+    needs: Install-prerequirement
+    runs-on: ubuntu-latest
+    steps:
+      - name: If I download the artifact before, is it stored always during the pipeline?
+        uses: actions/download-artifact@v2
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
