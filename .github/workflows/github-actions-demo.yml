@@ -17,8 +17,33 @@ jobs:
                 name: shared-files
                 path: .
 
-    Tfvars-parser:
+    Play-parser-dryrun:
         needs: Checkout-repository
+        runs-on: ubuntu-latest
+        steps:
+            - name: Play parser dry run
+              run: echo "Play parser dry run"
+
+    Print-dryrun:
+        needs: Play-parser-dryrun
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print dry run
+              run: |
+                echo "Print dry run"
+                condition_a=true
+            - name: 🚦 Verify condition
+              run: |
+                # Add commands to execute during the workflow
+                if [ "$condition_a" = true ]; then
+                  echo "Condition A is satisfied. Continuing pipeline."
+                else
+                  echo "Condition B is satisfied. Stopping pipeline."
+                  exit 1
+                fi
+
+    Tfvars-parser:
+        needs: Print-dryrun
         runs-on: ubuntu-latest
         steps:
         - name: Download All Files
