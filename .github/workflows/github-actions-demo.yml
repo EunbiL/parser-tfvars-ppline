@@ -34,7 +34,8 @@ jobs:
           fi
       - name: Install pyhcl
         run: pip install pyhcl
-        
+      - name: Execute the script
+        run: python tfvars_parser.py --input_tfvars_file file-test.tfvars
 
 #   Test-Approve:
 #     needs: Explore-GitHub-Actions
