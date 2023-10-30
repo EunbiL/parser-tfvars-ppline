@@ -32,6 +32,8 @@ jobs:
               echo "tfvars file does not exist"
               exit 1
           fi
+      - name: Install pyhcl
+        run: pip install pyhcl
         
 
 #   Test-Approve:
