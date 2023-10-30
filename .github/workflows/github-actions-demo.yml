@@ -1,0 +1,23 @@
+name: GitHub Actions Demo for parser-tfvars
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on: [push]
+jobs:
+  Start-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: First step to check out repository code
+        uses: actions/checkout@v4
+      - name: Second step to list files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - name: Last step to print job status
+        run : echo "🍏 This job's status is ${{ job.status }}."
+  
+#   Test-Approve:
+#     needs: Explore-GitHub-Actions
+#     runs-on: ubuntu-latest
+#     environment:
+#       name: test
+#     steps:
+#       - name: Print "hello world"
+#         run: echo "hello world"
