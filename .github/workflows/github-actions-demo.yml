@@ -2,7 +2,8 @@ name: GitHub Actions Demo for parser-tfvars
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
-  Start-pipeline:
+
+  Checkout-repository:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
@@ -16,8 +17,8 @@ jobs:
             name: shared-files
             path: .
 
-  Install-prerequirement:
-    needs: Start-pipeline
+  Tfvars-parser:
+    needs: Checkout-repository
     runs-on: ubuntu-latest
     steps:
       - name: Download All Files
@@ -36,9 +37,6 @@ jobs:
         run: pip install pyhcl
       - name: Execute the script
         run: python tfvars_parser.py --input_tfvars_file file-test.tfvars
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
       - name: Read output file
         run: cat output.tfvars
       - name: Upload output file
@@ -47,9 +45,11 @@ jobs:
             name: shared-files
             path: output.tfvars
 
-  Test-Artifact:
-    needs: Install-prerequirement
+  Check-output-file:
+    needs: Tfvars-parser
     runs-on: ubuntu-latest
+    environment:
+        name: dev
     steps:
       - name: If I download the artifact before, is it stored always during the pipeline?
         uses: actions/download-artifact@v2
