@@ -13,6 +13,7 @@ jobs:
       - name: Last step to print job status
         run : echo "🍏 This job's status is ${{ job.status }}."
   Install-prerequirement:
+    needs: Start-pipeline
     runs-on: ubuntu-latest
     steps:
       - name: Check for tfvars file
