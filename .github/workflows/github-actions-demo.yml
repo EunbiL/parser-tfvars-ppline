@@ -37,7 +37,7 @@ jobs:
         run: pip install pyhcl
       - name: Execute the script
         run: python tfvars_parser.py --input_tfvars_file file-test.tfvars
-      - name: Read output file
+      - name: 🔍 Reviewers, Click here to check output.tfvars file 🔍
         run: cat output.tfvars
       - name: Upload output file
         uses: actions/upload-artifact@v2
@@ -51,9 +51,9 @@ jobs:
     environment:
         name: dev
     steps:
-      - name: If I download the artifact before, is it stored always during the pipeline?
+      - name: Download artifact
         uses: actions/download-artifact@v2
-      - name: List files in the repository
+      - name: Read output.tfvars file
         run: |
           cd ${{ github.workspace }}/shared-files
           cat output.tfvars
