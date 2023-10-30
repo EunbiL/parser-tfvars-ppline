@@ -36,6 +36,11 @@ jobs:
         run: pip install pyhcl
       - name: Execute the script
         run: python tfvars_parser.py --input_tfvars_file file-test.tfvars
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
+      - name: Read output file
+        run: cat output.tfvars
 
 #   Test-Approve:
 #     needs: Explore-GitHub-Actions
