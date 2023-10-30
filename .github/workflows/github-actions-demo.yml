@@ -58,3 +58,6 @@ jobs:
         run: |
           cd ${{ github.workspace }}/shared-files
           cat output.tfvars
+
+
+          
