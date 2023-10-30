@@ -41,7 +41,12 @@ jobs:
           ls ${{ github.workspace }}
       - name: Read output file
         run: cat output.tfvars
-
+      - name: Upload output file
+        uses: actions/upload-artifact@v2
+        with:
+            name: shared-files
+            path: output.tfvars
+            
   Test-Artifact:
     needs: Install-prerequirement
     runs-on: ubuntu-latest
@@ -50,5 +55,5 @@ jobs:
         uses: actions/download-artifact@v2
       - name: List files in the repository
         run: |
-          ls ${{ github.workspace }}
+          ls ${{ github.workspace }}/shared-files
           cat output.tfvars
