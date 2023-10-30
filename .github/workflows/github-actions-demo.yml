@@ -27,11 +27,12 @@ jobs:
     Print-dryrun:
         needs: Play-parser-dryrun
         runs-on: ubuntu-latest
+        env:
+            condition_a: true
         steps:
             - name: Print dry run
               run: |
                 echo "Print dry run"
-                condition_a=true
             - name: 🚦 Verify condition
               run: |
                 # Add commands to execute during the workflow
