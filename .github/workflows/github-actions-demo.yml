@@ -51,3 +51,4 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+          cat output.tfvars
