@@ -5,6 +5,27 @@ This repository contains a GitHub Actions workflow that performs a dry run parse
 
 ## Workflow Details
 
+### Workflow Algorithm Diagram
++-----------+
+|   Start   |
++-----------+
+    |
+    v
++----------------------------+
+| Job1 : Checkout-repository |
++----------------------------+
+    |
+    v
++-----------------------+          +-----------+
+| Job2 : Dry-run-parser |   -- >   |   Finish  |
++-----------------------+          +-----------+
+    | (If we want to accept modifications)
+    v
++----------------------------+
+| Job2 : Accept-modification |
++----------------------------+
+
+
 ### Workflow Structure
 The workflow is structured into the following stages:
 
