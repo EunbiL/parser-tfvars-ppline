@@ -1,18 +1,18 @@
-### GitHub Actions Demo for parser-tfvars
+# GitHub Actions Demo for parser-tfvars
 
 ## Description
 This repository contains a GitHub Actions workflow that performs a dry run parser for the tfvars file and accepts modifications, using the parser-tfvars script. The workflow demonstrates various stages such as checking for the tfvars file, installing necessary dependencies, running the script, and uploading the modified tfvars file.
 
 ## Workflow Details
 
-# Workflow Structure
+### Workflow Structure
 The workflow is structured into the following stages:
 
 1. Checkout-repository: Checks out the repository code and lists the files in the repository.
 2. Dry-run-parser: Initiates the dry run parser for the tfvars file. It checks for the existence of the tfvars file, installs necessary dependencies, and performs a dry run of the tfvars_parser.py script.
 3. Accept-modification: Downloads the shared files artifact, checks for the tfvars file, installs required dependencies, and accepts modifications to the tfvars file using the tfvars_parser.py script. It then prints the output.tfvars file and uploads it as an artifact.
 
-# Workflow Steps
+### Workflow Steps
 Step 1: Checkout Repository: Checks out the repository code.
 Step 2: Dry Run Parser: Conducts a dry run of the tfvars_parser.py script.
 Step 3: Download All Files: Downloads the shared files artifact.
