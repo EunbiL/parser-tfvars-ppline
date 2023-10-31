@@ -17,12 +17,12 @@ jobs:
                 name: shared-files
                 path: .
 
-    Play-parser-dryrun:
+    Dry-run-parser:
         needs: Checkout-repository
         runs-on: ubuntu-latest
         steps:
-            - name: Play parser dry run
-              run: echo "Play parser dry run"
+            - name: Start dry run parser
+              run: echo "Dry run parser tfvars file"
             - name: Download All Files
               uses: actions/download-artifact@v2
               with:
@@ -31,33 +31,45 @@ jobs:
               run: |
                 cd ${{ github.workspace }}
                 ls
+            - name: Check for tfvars file
+              run: |
+                for file in *.tfvars; do
+                  if [ -f "$file" ]; then
+                    echo "tfvars file $file exists"
+                  else
+                    echo "tfvars file does not exist"
+                    exit 1
+                  fi
+                done
             - name: Install pyhcl and tabulate
               run: pip install pyhcl tabulate
             - name: Dry run the script, 🔍 Reviewers, Click here to check the bad segments 🔍
               run: python tfvars_parser.py --input_tfvars_file file.tfvars --dry_run
 
-    Print-dryrun:
-        needs: Play-parser-dryrun
-        runs-on: ubuntu-latest
-        env:
-            condition_a: true
-        steps:
-            - name: Print dry run
-              run: |
-                echo "Print dry run"
-            - name: 🚦 Verify condition
-              run: |
-                # Add commands to execute during the workflow
-                if [ "$condition_a" = true ]; then
-                  echo "Condition A is satisfied. Continuing pipeline."
-                else
-                  echo "Condition B is satisfied. Stopping pipeline."
-                  exit 1
-                fi
+    # Print-dryrun:
+    #     needs: Dry-run-parser
+    #     runs-on: ubuntu-latest
+    #     env:
+    #         condition_a: true
+    #     steps:
+    #         - name: Print dry run
+    #           run: |
+    #             echo "Print dry run"
+    #         - name: 🚦 Verify condition
+    #           run: |
+    #             # Add commands to execute during the workflow
+    #             if [ "$condition_a" = true ]; then
+    #               echo "Condition A is satisfied. Continuing pipeline."
+    #             else
+    #               echo "Condition B is satisfied. Stopping pipeline."
+    #               exit 1
+    #             fi
 
-    Tfvars-parser:
-        needs: Print-dryrun
+    Accept-modification:
+        needs: Dry-run-parser
         runs-on: ubuntu-latest
+        environment:
+          name: dev
         steps:
         - name: Download All Files
           uses: actions/download-artifact@v2
@@ -77,11 +89,10 @@ jobs:
                   exit 1
                 fi
               done
-        
         - name: Install pyhcl and tabulate
           run: pip install pyhcl tabulate
-        - name: Execute the script
-          run: python tfvars_parser.py --input_tfvars_file file.tfvars
+        - name: Accept modification
+          run: python tfvars_parser.py --input_tfvars_file file.tfvars --accept_changes
         - name: 🔍 Reviewers, Click here to check output.tfvars file 🔍
           run: cat output.tfvars
         - name: Upload output file
@@ -90,15 +101,15 @@ jobs:
             name: shared-files
             path: output.tfvars
 
-    Check-output-file:
-        needs: Tfvars-parser
-        runs-on: ubuntu-latest
-        environment:
-            name: dev
-        steps:
-        - name: Download artifact
-          uses: actions/download-artifact@v2
-        - name: Read output.tfvars file
-          run: |
-            cd ${{ github.workspace }}/shared-files
-            cat output.tfvars
+    # Check-output-file:
+    #     needs: Accept-modification
+    #     runs-on: ubuntu-latest
+    #     environment:
+    #         name: dev
+    #     steps:
+    #     - name: Download artifact
+    #       uses: actions/download-artifact@v2
+    #     - name: Read output.tfvars file
+    #       run: |
+    #         cd ${{ github.workspace }}/shared-files
+    #         cat output.tfvars
