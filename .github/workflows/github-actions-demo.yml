@@ -66,8 +66,8 @@ jobs:
                 fi
               done
         
-        - name: Install pyhcl
-          run: pip install pyhcl
+        - name: Install pyhcl and tabulate
+          run: pip install pyhcl tabulate
         - name: Execute the script
           run: python tfvars_parser.py --input_tfvars_file file.tfvars
         - name: 🔍 Reviewers, Click here to check output.tfvars file 🔍
