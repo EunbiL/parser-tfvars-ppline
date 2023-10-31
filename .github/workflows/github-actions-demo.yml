@@ -51,9 +51,9 @@ jobs:
           uses: actions/download-artifact@v2
           with:
             name: shared-files
-        - name: List files in the repository
+        - name: Change Directory in the repository
           run: |
-            ls ${{ github.workspace }}
+            cd ${{ github.workspace }}
         - name: Check for tfvars file
           run: |
             if [ -f *.tfvars ]; then
