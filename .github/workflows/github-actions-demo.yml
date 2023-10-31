@@ -1,7 +1,7 @@
 name: GitHub Actions Demo for parser-tfvars
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
-#    workflow_dispatch
+on:
+  workflow_dispatch
 jobs:
     Checkout-repository:
         runs-on: ubuntu-latest
