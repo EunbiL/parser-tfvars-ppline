@@ -51,17 +51,21 @@ jobs:
           uses: actions/download-artifact@v2
           with:
             name: shared-files
-        - name: Change Directory in the repository
+        - name: Change directory in the repository and list
           run: |
             cd ${{ github.workspace }}
+            ls
         - name: Check for tfvars file
           run: |
-            if [ -f *.tfvars ]; then
-              echo "tfvars file exists"
-            else
-              echo "tfvars file does not exist"
-              exit 1
-            fi
+              for file in *.tfvars; do
+                if [ -f "$file" ]; then
+                  echo "tfvars file $file exists"
+                else
+                  echo "tfvars file does not exist"
+                  exit 1
+                fi
+              done
+        
         - name: Install pyhcl
           run: pip install pyhcl
         - name: Execute the script
