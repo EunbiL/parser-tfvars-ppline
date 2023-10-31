@@ -23,6 +23,18 @@ jobs:
         steps:
             - name: Play parser dry run
               run: echo "Play parser dry run"
+            - name: Download All Files
+              uses: actions/download-artifact@v2
+              with:
+                name: shared-files
+            - name: Change directory in the repository and list
+              run: |
+                cd ${{ github.workspace }}
+                ls
+            - name: Install pyhcl and tabulate
+              run: pip install pyhcl tabulate
+            - name: Dry run the script, 🔍 Reviewers, Click here to check the bad segments 🔍
+              run: python tfvars_parser.py --input_tfvars_file file.tfvars --dry_run
 
     Print-dryrun:
         needs: Play-parser-dryrun
