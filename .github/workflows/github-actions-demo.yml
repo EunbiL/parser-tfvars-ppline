@@ -62,7 +62,7 @@ jobs:
         - name: Install pyhcl
           run: pip install pyhcl
         - name: Execute the script
-          run: python tfvars_parser.py --input_tfvars_file file-test.tfvars
+          run: python tfvars_parser.py --input_tfvars_file file.tfvars
         - name: 🔍 Reviewers, Click here to check output.tfvars file 🔍
           run: cat output.tfvars
         - name: Upload output file
