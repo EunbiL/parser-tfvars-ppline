@@ -29,4 +29,4 @@ def check_ls(segment):
         correct_segment = '_'.join(segment)
         
         return correct_segment
-    
+

@@ -107,8 +107,13 @@ To use the Script, follow these steps:
 
 
 1. Execute the Script:
+  - in dry-run mode:
   - ```bash
-    python tfvars_parser.py --input_tfvars_file file.tfvars
+    python tfvars_parser.py --input_tfvars_file file.tfvars --dry_run
+    ```
+  - accept the corrections see in the dry-run output:
+  - ```bash
+    python tfvars_parser.py --input_tfvars_file file.tfvars --accept_changes
     ```
 2. If no errors, `output.tfvars` file should apear in the current directory.
 

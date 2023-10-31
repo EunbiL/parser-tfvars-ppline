@@ -3,6 +3,7 @@ import hcl
 from utils.functions import *
 from utils.vars import *
 from utils.checks import *
+from tabulate import tabulate
 
 
 
@@ -66,28 +67,60 @@ def tfvars_to_dict(tfvars_file):
  
 
 
-        
+
+
+
 def match_segment(data):
     import copy
     data2 = copy.deepcopy(data)
-
+    global segments
+    segments = []
     for map in [key for key in data if "segment" in key]:
-        for segment in list(data2[map].keys()):  # Iterate over the copied dictionary
+        for segment in list(data2[map].keys()):  
             match = re.match(Segment_Pattern, segment)
             if match or not match:
                 
                 if check_ls(segment):
+                    reason = 'A segment must end with LS'
                     good_segment = check_ls(segment)
+                    segments.append([segment,good_segment,reason])
                     data2[map][good_segment] = data2[map].pop(segment)
                     
                 if check_exp(segment):
+                    reason = 'EXPs: INT,EXT is not used with ENVs: SYNC,HTBT'
                     good_segment = check_exp(segment)
+                    segments.append([segment,good_segment,reason])
                     data2[map][good_segment] = data2[map].pop(segment)
                     
                 if check_class(segment):
+                    reason = 'Classes: PIC,SEC,SRV,S,C is not used with ENVs: DEVS, DEVT'
                     good_segment = check_class(segment)
-                    data2[map][good_segment] = data2[map].pop(segment)  
+                    segments.append([segment,good_segment,reason])
+                    data2[map][good_segment] = data2[map].pop(segment)
+                    
+    return data2
+                     
+
+def correct_segments(data):
+    data2 = match_segment(data)
     datahcl = printhcl(data2)
     file = 'output.tfvars'
     with open(file,'w') as fr:
         fr.write(datahcl)
+
+
+
+def table_print(table):
+    headers = ['Bad Segment','Corrected Segment','Convention Error'] 
+    print(tabulate(table, headers, tablefmt="fancy_grid"))
+    
+def dry_run():
+    table = []
+    for segment in segments:
+        table+=[segment]
+    table_print(table)
+    
+
+
+    
+    

@@ -11,3 +11,4 @@ Segment_Pattern = fr"^{POD}_{OPCO}_{ENV}_{EXP}_?{CLASS}_?{APPCODE}_?{ID}_?{LS}$"
 
 EXP = ["EXT","INT"]
 CLASS = ["PIC","SEC","SRV","C","S"]
+
