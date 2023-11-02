@@ -1,7 +1,7 @@
 # GitHub Actions Demo for parser-tfvars
 
 ## Description
-This repository contains a GitHub Actions workflow that performs a dry run parser for checking the tfvars file and create output file from parser-tfvars. If there are incorrect segments, this pipeline will show you them and stop for demanding reviewer's validation to accept modifications. The workflow demonstrates various stages such as checking for the tfvars file, installing necessary dependencies, running the script, and uploading the modified tfvars file.
+This repository contains a GitHub Actions workflow that performs a dry run parser for checking the tfvars file and creating output files from the parser. If there are some incorrect segments, it will show you them and stop in order to demande reviewer's validation for accepting modifications. The workflow demonstrates various stages such as checking for the tfvars file, installing necessary dependencies, running the script, and uploading the modified tfvars file.
 
 ## Workflow Details
 
@@ -55,11 +55,9 @@ the pipeline to apply the changes. The applied output file is saved in artifact.
 
 ## Usage
 To use this workflow, follow the steps below:
-Fork this repository to your GitHub account.
-Make necessary modifications to the tfvars file.
-Trigger the workflow manually using the workflow_dispatch event.
-Review the output and the modified output.tfvars file.
+1. Go to the repository of your GitHub account.
+2. Go to Actions
+3. Click `GitHub Actions Demo for parser-tfvars` workflow
+4. Click `Run workflow` with branch from that you want to trigger
+5. If you are the one of reviewers, you will receive a notification in email to see the result of dry_run or accept the modifications.
 
-## License
-This project is licensed under the MIT License.
-Feel free to contribute or use this project as per the terms of the license.
